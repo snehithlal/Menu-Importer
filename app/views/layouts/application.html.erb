@@ -14,7 +14,10 @@
     <div class="ui grid container">
       <div class="row">
         <div class="column">
-          <h1 class="ui header">Restaurant Manager</h1>
+          <h1 class="ui header inverted red">Restaurant Manager</h1>
+           <% if user_signed_in? %>
+            <div class="ui right floated button"><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></div>
+            <% end %>
         </div>
       </div>
       <%= yield %>
