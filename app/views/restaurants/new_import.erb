@@ -2,6 +2,12 @@
   <%= link_to "Back", restaurant_details_restaurants_path(restaurant_id: @restaurant), class: "ui right floated button black" %>
   <%= link_to "Home", restaurants_path, class: "ui right floated button green" %>
 </div>
+  <div class="row">
+    <div class="column">
+      <h1 class="ui header violet"><%= @restaurant.name %></h1>
+      <div class="ui divider"></div>
+    </div>
+  </div>
   <%= form_with url: import_csv_restaurant_path(@restaurant), multipart: true,  html: {class: "ui form" } do |f| %>
     <% flash.each do |key, value| %>
       <div class="<%= flash_class(key.to_sym) %> closable">
