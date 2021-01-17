@@ -1,26 +1,46 @@
-  <%= link_to "Back", restaurants_path, class: "ui button" %>
-<div>
-  <h4> Import Data </h4>
-  <%= link_to "Import", new_import_restaurant_path(@restaurant), class: 'ui button' %>
-  <table class="ui collapsing  selectable celled table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-    <% @restaurant.menu_categories.each do |category|%>
-      <tbody>
-        <tr>
-          <td><%= link_to category.name, list_menu_items_restaurants_path(item_id: category.id), remote: true%></td>
-          <td><%= category.menu_items.count %></td>
-        </tr>
-      </tbody>
-      <% end %>
-</table>
-
-<div id="menu_items">
-  
-</div>
+<div class="ui container">
+  <%= link_to "Import", new_import_restaurant_path(@restaurant), class: 'ui button green' %>
+  <%= link_to "Back", restaurants_path, class: "ui right floated button black" %>
 </div>
 
+  <div class="row">
+    <div class="column">
+      <h1 class="ui header">Menu Categories</h1>
+      <div class="ui three column grid">
+        <div class="column">
+         <div class="scrollable-content">
+            <table class="ui table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if @restaurant.menu_categories.present? %>
+                  <% @restaurant.menu_categories.each do |category|%>
+                  <tr>
+                    <td><%= link_to category.name, list_menu_items_restaurants_path(item_id: category.id), remote: true%></td>
+                    <td><%= category.menu_items.count %></td>
+                  </tr>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td>
+                      No Categories
+                    </td>
+                  </tr>
+
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="column">
+        <div class="scrollable-content">
+          <div id="menu_items"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

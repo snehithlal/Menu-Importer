@@ -16,15 +16,12 @@ class MenuImport
     @restaurant_id = import.restaurant_id
     @accept_all_valid = import.import_mode
     @error_message = ''
+    @success = true
     reset_counts
   end
 
   def file_path
     ActiveStorage::Blob.service.send(:path_for, @import.csv_file.key)
-  end
-
-  def validate_csv
-
   end
 
   def import_csv
@@ -38,7 +35,7 @@ class MenuImport
       @import.added_items = self.added_items
       @import.deleted_items = self.deleted_items
       @import.modified_items = self.modified_items
-      @import.import_status = !@error.present?
+      @import.import_status = @success
       @import.import_mode = @accept_all_valid
       @import.save
     end
@@ -186,6 +183,7 @@ class MenuImport
   def check_and_accept_valid
     if @accept_all_valid
       reset_counts
+      @success = false
       raise ActiveRecord::Rollback
     end
   end

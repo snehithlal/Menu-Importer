@@ -18,6 +18,7 @@ class RestaurantsController < ApplicationController
     @import = @restaurant.imports.new(import_mode: params[:accept_all_valid], csv_file: params[:csv_file])
     if @import.save
       MenuImport.call(@import)
+      flash[:notice] = @import.import_summary
     else
       flash[:error] = @import.errors.full_messages
     end

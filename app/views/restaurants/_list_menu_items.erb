@@ -1,16 +1,16 @@
-  <table class="ui  selectable celled table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-    <% @menu_category.menu_items.each do |item|%>
-      <tbody>
+    <table class="ui grey table">
+      <thead>
         <tr>
-          <td><%= item.name %></td>
-          <td><%= item.price %></td>
+          <th>Name</th>
+          <th>Price</th>
         </tr>
-      </tbody>
-      <% end %>
-</table>
+      </thead>
+      <% @menu_category.menu_items.each do |item|%>
+        <tbody>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.price %></td>
+          </tr>
+        </tbody>
+        <% end %>
+    </table>
