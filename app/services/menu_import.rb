@@ -14,7 +14,7 @@ class MenuImport
   def initialize(import)
     @import = import
     @restaurant_id = import.restaurant_id
-    @accept_all_valid = true
+    @accept_all_valid = import.import_mode
     @error_message = ''
     reset_counts
   end
@@ -35,7 +35,6 @@ class MenuImport
         modify_items
       end
     ensure
-      @file_name = @import.csv_file.filename,
       @import.added_items = self.added_items
       @import.deleted_items = self.deleted_items
       @import.modified_items = self.modified_items

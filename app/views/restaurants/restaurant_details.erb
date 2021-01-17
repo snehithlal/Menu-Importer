@@ -1,8 +1,8 @@
-<% flash[:notice] %>
+  <%= link_to "Back", restaurants_path, class: "ui button" %>
 <div>
   <h4> Import Data </h4>
   <%= link_to "Import", new_import_restaurant_path(@restaurant), class: 'ui button' %>
-  <table class="ui collapsing table">
+  <table class="ui collapsing  selectable celled table">
   <thead>
     <tr>
       <th>Name</th>
@@ -12,10 +12,15 @@
     <% @restaurant.menu_categories.each do |category|%>
       <tbody>
         <tr>
-          <td><%= category.name %></td>
+          <td><%= link_to category.name, list_menu_items_restaurants_path(item_id: category.id), remote: true%></td>
           <td><%= category.menu_items.count %></td>
         </tr>
       </tbody>
       <% end %>
 </table>
+
+<div id="menu_items">
+  
 </div>
+</div>
+

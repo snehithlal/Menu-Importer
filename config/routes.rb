@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :restaurants do
     collection do 
       get :restaurant_details
+      get :list_menu_items
     end
     
     member do

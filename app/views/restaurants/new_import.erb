@@ -1,4 +1,39 @@
-  <%= form_with url: import_csv_restaurant_path(@restaurant) , multipart: true do |f| %>
-  <%= f.file_field :csv_file %>
-  <%= submit_tag "import" %>
+  <%= form_with url: import_csv_restaurant_path(@restaurant), multipart: true,  html: {class: "ui form" } do |f| %>
+    <% flash.each do |key, value| %>
+      <div class="<%= flash_class(key) %> closable">
+        <%= value %>
+        <i class="close icon"></i>
+      </div>
+    <% end %>
+
+    <div class="inline fields">
+      <label>Status</label>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= f.radio_button :accept_all_valid, true, checked: true %>
+          <%= f.label :accept_all_valid_true, "Accept All Valid"  %>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= f.radio_button :accept_all_valid, false%>
+          <%= f.label :accept_all_valid_false, "Accept If All Valid"  %>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Upload CSV</label>
+      <div class="two fields">
+        <div class="field">
+            <%= f.file_field :csv_file %>
+        </div>
+      </div>
+    </div>
+    <%= submit_tag "Import", class: "ui button" %>
   <% end %>
+  <%= link_to "Back", restaurants_path, class: "ui button" %>
+
+  <script>
+    $('.ui.radio.checkbox').checkbox();
+  </script>
