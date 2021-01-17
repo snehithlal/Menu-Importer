@@ -1,0 +1,16 @@
+<% flash[:notice] %>
+  <%= form_with url: restaurant_details_restaurants_path , method: :get do |f| %>
+
+<div>
+  <h4> Import Data </h4>
+  <%= select_tag "restaurant_id", options_from_collection_for_select(@restaurants, "id", "name"), 
+  prompt: "Select restaurant", class: "ui dropdown", onchange: "this.form.submit();"
+ %>
+</div>
+
+<% end%>
+<script>
+
+  $('.ui.dropdown').dropdown();
+
+</script>
