@@ -1,0 +1,52 @@
+  <div class="ui container">
+  <%= link_to "Back", restaurant_details_restaurants_path(restaurant_id: @restaurant), class: "ui right floated button black" %>
+  <%= link_to "Home", restaurants_path, class: "ui right floated button green" %>
+</div>
+  <%= form_with url: import_csv_restaurant_path(@restaurant), multipart: true,  html: {class: "ui form" } do |f| %>
+    <% flash.each do |key, value| %>
+      <div class="<%= flash_class(key.to_sym) %> closable">
+          <ul class="list">
+            <% Array(value).each do |val| %>
+                <li><%= val %></li>
+            <% end %>
+        </ul>
+        <i class="close icon"></i>
+      </div>
+    <% end %>
+
+    <div class="inline fields">
+      <label>Import Mode</label>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= f.radio_button :accept_all_valid, false, checked: true %>
+          <%= f.label :accept_all_valid_true, "Import all valid items"  %>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= f.radio_button :accept_all_valid, true%>
+          <%= f.label :accept_all_valid_false, "Only import if all items valid"  %>
+        </div>
+      </div>
+    </div>
+
+    <div class="inline fields">
+      <div class="field">
+        <label>Upload CSV</label>
+        <div class="two fields">
+          <div class="field">
+              <%= f.file_field :csv_file %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= submit_tag "Import", class: "ui button" %>
+  <% end %>
+
+  <script>
+    $('.ui.radio.checkbox').checkbox();
+
+    $(".message.closable .close.icon").click(function(){
+      $('.message.closable').fadeOut("slow");
+    }); 
+  </script>
