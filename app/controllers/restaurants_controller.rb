@@ -1,5 +1,6 @@
-class RestaurantsController < ApplicationController
+# frozen_string_literal: true
 
+class RestaurantsController < ApplicationController
   def index
     @restaurants = Restaurant.all
   end
@@ -8,7 +9,6 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.find(params[:restaurant_id])
   end
 
-  
   def new_import
     @restaurant = Restaurant.find(params[:id])
   end
@@ -28,5 +28,4 @@ class RestaurantsController < ApplicationController
   def list_menu_items
     @menu_category = MenuCategory.find(params[:item_id])
   end
-  
 end
