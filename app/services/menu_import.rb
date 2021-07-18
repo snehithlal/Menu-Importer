@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class MenuImport
   require 'csv'
   attr_accessor :added_items, :deleted_items, :modified_items
 
   # allowwed csv headers
-  ALLOWED_ATTRIBUTES = [:name, :menu_group, :price].freeze
+  ALLOWED_ATTRIBUTES = %i[name menu_group price].freeze
 
   # class is responsible for importing menu groups and items
   # import object which is having attachment as param
@@ -25,20 +27,18 @@ class MenuImport
   end
 
   def import_csv
-    begin 
-      ActiveRecord::Base.transaction do
-        remove_categories
-        add_new_categories
-        modify_items
-      end
-    ensure
-      @import.added_items = self.added_items
-      @import.deleted_items = self.deleted_items
-      @import.modified_items = self.modified_items
-      @import.import_status = @success
-      @import.import_mode = @accept_all_valid
-      @import.save
+    ActiveRecord::Base.transaction do
+      remove_categories
+      add_new_categories
+      modify_items
     end
+  ensure
+    @import.added_items = added_items
+    @import.deleted_items = deleted_items
+    @import.modified_items = modified_items
+    @import.import_status = @success
+    @import.import_mode = @accept_all_valid
+    @import.save
   end
 
   # restaurrant
@@ -58,7 +58,7 @@ class MenuImport
 
   # the keys newly aded in the csv file
   def new_category_keys
-    given_menu_category_keys - current_category_keys 
+    given_menu_category_keys - current_category_keys
   end
 
   # keys not present in the csv file
@@ -86,12 +86,12 @@ class MenuImport
 
   # read rows from csv and return as hash of key values
   def fetch_items
-    category_attributes = HashWithIndifferentAccess.new {|hash, key| hash[key] = [] }
+    category_attributes = HashWithIndifferentAccess.new { |hash, key| hash[key] = [] }
     header = :default
     CSV.foreach(file_path, headers: true, header_converters: :symbol) do |row|
       header = row[:menu_group].present? ? row[:menu_group] : header
       row[:price] = row[:price].to_f if row[:price]
-      row_hash = row.to_h.select { |key, value| ALLOWED_ATTRIBUTES.include?(key)}
+      row_hash = row.to_h.select { |key, _value| ALLOWED_ATTRIBUTES.include?(key) }
       category_attributes[header] << row_hash.except(:menu_group) if row[:name].present?
     end
     category_attributes
@@ -110,7 +110,7 @@ class MenuImport
     removed_categories.each do |category|
       category_items_count = category.menu_items.count
       if category.destroy
-        self.deleted_items += category_items_count 
+        self.deleted_items += category_items_count
       else
         check_and_accept_valid
       end
@@ -167,9 +167,9 @@ class MenuImport
           check_and_accept_valid
         end
       else
-        unless (menu_item.syncable_properties.symbolize_keys == item)
+        unless menu_item.syncable_properties.symbolize_keys == item
           if menu_item.update(item)
-            self.modified_items += 1 
+            self.modified_items += 1
           else
             check_and_accept_valid
           end
@@ -178,7 +178,7 @@ class MenuImport
     end
   end
 
-  # check and if any error then roll back all migrations based on the 
+  # check and if any error then roll back all migrations based on the
   # import type
   def check_and_accept_valid
     if @accept_all_valid
@@ -187,5 +187,4 @@ class MenuImport
       raise ActiveRecord::Rollback
     end
   end
-  
 end
