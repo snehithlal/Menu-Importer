@@ -18,6 +18,7 @@ AllCops:
     - 'actiontext/test/dummy/**/*'
     - '**/node_modules/**/*'
     - 'bin/**/*'
+    - 'config/initializers/**/*'
 
 Performance:
   Exclude:
