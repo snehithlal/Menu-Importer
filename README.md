@@ -13,6 +13,7 @@ Simple application to import menu groups and items for restaurants
 - clone
 - bundle
 - cp config/database.yml.example config/database.yml
+- yarn add jquery popper.js semantic-ui-sass
 - rake db:create
 - rake db:migrate
 - rake db:seed
