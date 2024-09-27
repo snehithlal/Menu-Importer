@@ -1,0 +1,22 @@
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>Item Name</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if menu_category.menu_items.present? %>
+      <% menu_category.menu_items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.price %></td>
+      </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2">No menu items found</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

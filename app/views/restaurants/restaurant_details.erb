@@ -22,7 +22,7 @@
                 <% if @restaurant.menu_categories.present? %>
                   <% @restaurant.menu_categories.each do |category|%>
                   <tr>
-                    <td><%= link_to category.name, list_menu_items_restaurants_path(item_id: category.id), remote: true%></td>
+                    <td><%= link_to category.name, list_menu_items_restaurants_path(item_id: category.id), data: { "turbo-method": :get } %></td>
                     <td><%= category.menu_items.count %></td>
                   </tr>
                   <% end %>
